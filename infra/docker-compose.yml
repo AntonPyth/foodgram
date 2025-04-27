@@ -1,17 +1,54 @@
-version: '3.3'
+volumes:
+  pg_data:
+  static:
+  media:
+  redoc:
+
+networks:
+  app_net:
+
 services:
+  db:
+    image: postgres:13
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    env_file: .env
+    networks:
+      - app_net
+    
+  backend:
+    image: iceberen/foodgram_backend
+    restart: always
+    env_file: .env
+    depends_on:
+      - db
+    volumes:
+      - static:/backend_static
+      - media:/app/media/
+      - redoc:/app/apps/api/docs/
+    networks:
+      - app_net
 
   frontend:
-    container_name: foodgram-front
-    build: ../frontend
+    image: iceberen/foodgram_frontend
+    env_file: .env
+    command: cp -r /app/build/. /frontend_static/
     volumes:
-      - ../frontend/:/app/result_build/
-  nginx:
-    container_name: foodgram-proxy
-    image: nginx:1.25.4-alpine
+      - static:/frontend_static
+    networks:
+      - app_net
+
+  gateway:
+    image: iceberen/foodgram_gateway
+    volumes:
+      - static:/staticfiles/
+      - media:/app/media/
+      - redoc:/usr/share/nginx/html/api/docs/
     ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ../frontend/build:/usr/share/nginx/html/
-      - ../docs/:/usr/share/nginx/html/api/docs/
+      - 8080:80
+    networks:
+      - app_net
+    depends_on:
+      - frontend
+      - backend
+      - db
