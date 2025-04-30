@@ -25,7 +25,8 @@ services:
     volumes:
       - static:/backend_static
       - media:/app/media/
-      - redoc:/app/apps/api 
+      - redoc:/app/apps/api  # Удалена строка "- app_net"
+    networks:
       - app_net
 
   frontend:
