@@ -28,16 +28,16 @@ class CreateUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=settings.MIN_PASSWORD_LENGTH,
                                      write_only=True, required=True)
     first_name = serializers.CharField(required=True,
-                                       max_length=settings.MAX_LENTHG_NAME)
+                                       max_length=settings.MAX_LENGTH_NAME)
     last_name = serializers.CharField(required=True,
-                                      max_length=settings.MAX_LENTHG_NAME)
-    email = serializers.EmailField(max_length=settings.MAX_LENTGHT_EMAIL,
+                                      max_length=settings.MAX_LENGTH_NAME)
+    email = serializers.EmailField(max_length=settings.MAX_LENGTH_EMAIL,
                                    required=True,
                                    validators=[UniqueValidator(
                                        queryset=User.objects.all(),
                                        message='Почта уже занята')])
     username = serializers.CharField(
-        max_length=settings.MAX_LENTHG_NAME,
+        max_length=settings.MAX_LENGTH_NAME,
         required=True,
         validators=[
             RegexValidator(regex=r'^[\w.@+-]+$',
@@ -221,7 +221,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(), many=True, write_only=True, required=True)
     name = serializers.CharField(required=True,
-                                 max_length=settings.MAX_LENTHG_RECIPE)
+                                 max_length=settings.MAX_LENGTH_RECIPE)
     cooking_time = serializers.IntegerField(min_value=settings.MIN_TIME,
                                             required=True)
     image = Base64ImageField()

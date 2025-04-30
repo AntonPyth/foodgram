@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
-from foodgram.settings import MAX_LENGTH_SLUG, MAX_LENTHG_NAME, MIN_AMOUNT
+from foodgram.settings import MAX_LENGTH_SLUG, MAX_LENGTH_NAME, MIN_AMOUNT
 
 User = get_user_model()
 
@@ -26,7 +26,7 @@ class Ingredient(models.Model):
     """Модель Ингредиентов."""
     name = models.CharField(
         verbose_name='Ингредиент',
-        max_length=MAX_LENTHG_NAME,
+        max_length=MAX_LENGTH_NAME,
         unique=True,
     )
     measurement_unit = models.CharField(
@@ -51,7 +51,7 @@ class Tag(TimeStampModel):
     """Модель Тэгов."""
     name = models.CharField(
         verbose_name='Тэг',
-        max_length=MAX_LENTHG_NAME,
+        max_length=MAX_LENGTH_NAME,
         unique=True
     )
     slug = models.SlugField(
@@ -82,7 +82,7 @@ class Recipe(TimeStampModel):
     )
     name = models.CharField(
         verbose_name='Рецепт',
-        max_length=MAX_LENTHG_NAME
+        max_length=MAX_LENGTH_NAME
     )
     image = models.ImageField(
         verbose_name='Изображение рецепта',
