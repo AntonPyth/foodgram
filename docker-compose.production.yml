@@ -25,8 +25,7 @@ services:
     volumes:
       - static:/backend_static
       - media:/app/media/
-      - redoc:/app/apps/api/docs/
-    networks:
+      - redoc:/app/apps/api 
       - app_net
 
   frontend:
@@ -39,7 +38,7 @@ services:
       - app_net
 
   gateway:
-    image: iceberen/foodgram_gateway
+    image: antonpyth/foodgram_gateway
     volumes:
       - static:/staticfiles/
       - media:/app/media/
