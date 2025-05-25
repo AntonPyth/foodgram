@@ -17,7 +17,7 @@ services:
       - app_net
     
   backend:
-    image: iceberen/foodgram_backend
+    image: antonpyth/foodgram_backend
     restart: always
     env_file: .env
     depends_on:
@@ -30,7 +30,7 @@ services:
       - app_net
 
   frontend:
-    image: iceberen/foodgram_frontend
+    image: antonpyth/foodgram_frontend
     env_file: .env
     command: cp -r /app/build/. /frontend_static/
     volumes:
@@ -39,7 +39,7 @@ services:
       - app_net
 
   gateway:
-    image: iceberen/foodgram_gateway
+    image: antonpythfoodgram_gateway
     volumes:
       - static:/staticfiles/
       - media:/app/media/
