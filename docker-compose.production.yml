@@ -25,7 +25,7 @@ services:
     volumes:
       - static:/backend_static
       - media:/app/media/
-      - redoc:/app/apps/api  # Удалена сdтрока "- app_net"
+      - redoc:/app/apps/api
     networks:
       - app_net
 
