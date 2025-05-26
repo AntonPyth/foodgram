@@ -1,1 +1,1 @@
-Just a README file
+foodgram project
