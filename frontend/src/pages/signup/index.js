@@ -59,7 +59,7 @@ const SignUp = ({ onSignUp, submitError, setSubmitError }) => {
             onChange={onChange}
           />
           <Input
-            placeholder="Имя пользователя"
+            placeholder="Имя пользователя (никнейм)"
             name="username"
             required
             isAuth={true}
@@ -68,7 +68,7 @@ const SignUp = ({ onSignUp, submitError, setSubmitError }) => {
           />
 
           <Input
-            placeholder="Адрес электронной почты"
+            placeholder="Адрес электронной почты (E-mail)"
             name="email"
             required
             isAuth={true}
