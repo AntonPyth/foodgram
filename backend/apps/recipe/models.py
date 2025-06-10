@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
-#from foodgram.settings import MAX_LENGTH_SLUG, MAX_LENGTH_NAME, MIN_AMOUNT
+# from foodgram.settings import MAX_LENGTH_SLUG, MAX_LENGTH_NAME, MIN_AMOUNT
 
 User = get_user_model()
 
@@ -15,6 +15,7 @@ MIN_AMOUNT = 1
 MIN_TIME = 1
 MAX_LENGTH_RECIPE = 256
 MIN_AMOUNT = 1
+
 
 class TimeStampModel(models.Model):
     """Базовая абстракная модель."""
