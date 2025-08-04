@@ -27,11 +27,9 @@ services:
       - redoc:/app/apps/api/docs/
     networks:
       - app_net
-    command: >
-            bash -c "
-            python manage.py makemigrations
-            &&python manage.py migrate
-            &&python manage.py load_db"
+    command: ["./wait-for-db.sh", "db", "./start-server.sh"]
+    links:
+      - db
 
   frontend:
     build: ./frontend/
