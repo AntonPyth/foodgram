@@ -27,6 +27,11 @@ services:
       - redoc:/app/apps/api/docs/
     networks:
       - app_net
+    command: >
+            bash -c "
+            python manage.py makemigrations
+            &&python manage.py migrate
+            &&python manage.py load_db"
 
   frontend:
     build: ./frontend/
