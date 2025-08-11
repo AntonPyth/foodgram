@@ -1,6 +1,8 @@
 frontend/node_modules
 infra/frontend/build
 .env
+foodgram.rar
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
