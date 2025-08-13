@@ -9,11 +9,6 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-if not DEBUG:
-    SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-else:
-    SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-" + get_random_secret_key())
-
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 domain_name = os.getenv('ALLOWED_HOSTS')
