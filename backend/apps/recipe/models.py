@@ -2,8 +2,6 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
-# from foodgram.settings import MAX_LENGTH_SLUG, MAX_LENGTH_NAME, MIN_AMOUNT
-
 User = get_user_model()
 
 MAX_LENGTH_EMAIL = 254
