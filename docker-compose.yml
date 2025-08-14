@@ -11,10 +11,10 @@ services:
   db:
     image: postgres:13
     healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U postgres"]
+    test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
     interval: 5s
     timeout: 5s
-    retries: 5
+    retries: 10
     volumes:
       - pg_data:/var/lib/postgresql/data
     env_file: .env
@@ -25,16 +25,15 @@ services:
     build: ./backend/
     env_file: .env
     depends_on:
-      - db
+      - db:
+          condition: service_healthy
     volumes:
       - static:/backend_static
       - media:/app/media/
       - redoc:/app/apps/api/docs/
     networks:
       - app_net
-    command: ["./wait-for-db.sh", "db", "./start-server.sh"]
-    links:
-      - db
+    command: ["./wait-for-db.sh", "db", "5432", "./start-server.sh"]
 
   frontend:
     build: ./frontend/
