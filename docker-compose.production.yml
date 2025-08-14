@@ -15,6 +15,11 @@ services:
     env_file: .env
     networks:
       - app_net
+    healthcheck:
+    test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+    interval: 5s
+    timeout: 5s
+    retries: 10
     
   backend:
     image: antonpyth/foodgram_backend
@@ -22,6 +27,7 @@ services:
     env_file: .env
     depends_on:
       - db
+    command: ["./wait-for-db.sh", "db", "5432", "./start-server.sh"]
     volumes:
       - static:/backend_static
       - media:/app/media/
