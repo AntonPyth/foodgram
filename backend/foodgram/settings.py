@@ -11,13 +11,14 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
-domain_name = os.getenv('ALLOWED_HOSTS')
-if domain_name:
-    CSRF_TRUSTED_ORIGINS = [f"https://{domain_name}"]
+DOMAIN_NAME = os.getenv('DOMAIN_NAME', 'foodgramanton.zapto.org')
+
+if DOMAIN_NAME:
+    CSRF_TRUSTED_ORIGINS = [f"https://{DOMAIN_NAME}"]
 else:
     CSRF_TRUSTED_ORIGINS = []
 
-SITE_DOMAIN = f'https://{ALLOWED_HOSTS[0]}'
+SITE_DOMAIN = f'https://{DOMAIN_NAME}'
 
 
 INSTALLED_APPS = [
