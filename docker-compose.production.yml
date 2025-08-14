@@ -16,10 +16,10 @@ services:
     networks:
       - app_net
     healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
-    interval: 5s
-    timeout: 5s
-    retries: 10
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     
   backend:
     image: antonpyth/foodgram_backend
