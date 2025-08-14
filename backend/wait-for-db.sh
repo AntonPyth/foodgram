@@ -7,7 +7,7 @@ shift 2
 cmd="$@"
 
 echo "⏳ Ожидание базы данных на ${host}:${port}..."
-until nc -z "$host" "$port"; do
+until PGPASSWORD=$POSTGRES_PASSWORD psql -h "$host" -U $POSTGRES_USER -d $POSTGRES_DB -c '\q' > /dev/null 2>&1; do
   sleep 1
 done
 
