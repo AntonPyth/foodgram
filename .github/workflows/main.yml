@@ -89,7 +89,10 @@ jobs:
     needs: 
       - build_backend_and_push_to_docker_hub
       - build_frontend_and_push_to_docker_hub
-      - build_gateway_and_push_to_docker_hub  
+      - build_gateway_and_push_to_docker_hub
+    env:
+      DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
+      ALLOWED_HOSTS: ${{ secrets.DOMAIN_NAME }},localhost
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
