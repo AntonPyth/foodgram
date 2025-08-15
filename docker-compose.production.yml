@@ -26,7 +26,8 @@ services:
     restart: always
     env_file: .env
     depends_on:
-      - db
+      - db:
+          condition: service_healthy
     command: ["./wait-for-db.sh", "db", "5432", "./start-server.sh"]
     volumes:
       - static:/backend_static
@@ -55,6 +56,9 @@ services:
     networks:
       - app_net
     depends_on:
-      - frontend
-      - backend
-      - db
+        frontend:
+          condition: service_started
+        backend:
+          condition: service_started
+        db:
+          condition: service_healthy
