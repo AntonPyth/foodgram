@@ -278,7 +278,7 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsAuthenticated,), )
     def subscribe(self, request, id):
         """Подписка/отписка на пользователя."""
-        
+
         following = get_object_or_404(User, id=id)
         if request.method == 'POST':
             serializer = FollowSerializer(
