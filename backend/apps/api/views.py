@@ -140,8 +140,9 @@ class RecipesViewSet(viewsets.ModelViewSet):
 @permission_classes((AllowAny, ))
 def redirect_to_recipe(request, recipe_id):
     """Редирект по короткой ссылке на детальный URL рецепта."""
+
     if not Recipe.objects.filter(id=recipe_id).exists():
-        raise ValidationError(f"Рецепт с id={recipe_id} не существует")
+        raise ValidationError(f'Рецепт с id={recipe_id} не существует')
     return redirect(f'/recipes/{recipe_id}/')
 
 
@@ -198,12 +199,14 @@ class CustomUserViewSet(UserViewSet):
 
     def get_permissions(self):
         """Получение класса ограничения."""
+
         if self.action in ('list', 'retrieve', 'create'):
             return (AllowAny(),)
         return super().get_permissions()
 
     def get_serializer_class(self):
         """Получение класса сериализатора."""
+
         if self.action in ('list', 'retrieve'):
             return CustomUserSerializer
         if self.action == 'create':
@@ -214,6 +217,7 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsAuthenticated,),)
     def me(self, request):
         """Получение текущего пользователя."""
+
         serializer = CustomUserSerializer(request.user,
                                           context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -222,6 +226,7 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsAuthenticated,), )
     def user_avatar(self, request):
         """Добавления и удаление аватара."""
+
         user = get_object_or_404(User, username=request.user.username)
         if request.method == 'PUT':
             avatar_data = request.data.get('avatar')
@@ -243,6 +248,7 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsOwnerOrReadOnly, ), )
     def set_password(self, request):
         """Кастомное изменение пароля."""
+
         serializer = ChangePasswordSerializer(data=request.data,
                                               context={'request': request})
         if not serializer.is_valid():
@@ -258,6 +264,7 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsAuthenticated,), )
     def get_subscriptions(self, request):
         """Получение списка подписок."""
+
         following_users = User.objects.filter(
             subscribers__subscriber=request.user
         ).distinct()
@@ -271,6 +278,7 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsAuthenticated,), )
     def subscribe(self, request, id):
         """Подписка/отписка на пользователя."""
+        
         following = get_object_or_404(User, id=id)
         if request.method == 'POST':
             serializer = FollowSerializer(
