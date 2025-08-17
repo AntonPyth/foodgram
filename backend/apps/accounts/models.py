@@ -7,7 +7,7 @@ from foodgram.settings import MAX_LENGTH_EMAIL, MAX_LENGTH_NAME
 
 
 class User(AbstractUser):
-    """Кастомная модель пользователя"""
+    """Кастомная модель пользователя."""
 
     email = models.EmailField(
         verbose_name='Email',
@@ -31,7 +31,6 @@ class User(AbstractUser):
     avatar = models.ImageField(
         verbose_name='Аватар',
         upload_to='avatars/',
-        null=True,
         blank=True,
     )
 
@@ -48,6 +47,7 @@ class User(AbstractUser):
 
 class Subscription(models.Model):
     """Модель подписок."""
+    
     subscriber = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

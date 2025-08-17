@@ -112,7 +112,7 @@ class ChangePasswordSerializer(serializers.Serializer):
         return value
 
     def validate(self, data):
-        """Проверка на совпадение паролей"""
+        """Проверка на совпадение паролей."""
         if not self.context.get('request').user.check_password(
             data['current_password']
         ):
