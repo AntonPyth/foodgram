@@ -15,7 +15,6 @@ admin.site.unregister(Group)
 class CustomUserAdmin(UserAdmin):
     form = UserChangeForm
     change_password_form = AdminPasswordChangeForm
-    model = User
 
     list_display = ('id', 'username', 'first_name', 'last_name', 'email',)
     list_filter = ('username',)
