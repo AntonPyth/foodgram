@@ -1,6 +1,17 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from backend.constants import (
+    MAX_LENGTH_EMAIL,
+    MAX_LENGTH_NAME,
+    MIN_PASSWORD_LENGTH,
+    MAX_LENGTH_SLUG,
+    ITEMS_ON_PAGE,
+    MIN_AMOUNT,
+    MIN_TIME,
+    MAX_LENGTH_RECIPE,
+)
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,14 +146,3 @@ DJOSER = {
         'token': 'apps.api.views.CustomTokenCreateView',
     },
 }
-
-# project constants
-MAX_LENGTH_EMAIL = 254
-MAX_LENGTH_NAME = 150
-MIN_PASSWORD_LENGTH = 8
-MAX_LENGTH_SLUG = 50
-ITEMS_ON_PAGE = 6
-MIN_AMOUNT = 1
-MIN_TIME = 1
-MAX_LENGTH_RECIPE = 256
-MIN_AMOUNT = 1

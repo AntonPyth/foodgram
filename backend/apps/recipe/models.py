@@ -1,18 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
+from backend.constants import (
+    MAX_LENGTH_NAME,
+    MAX_LENGTH_SLUG,
+    MIN_AMOUNT
+)
 
 User = get_user_model()
-
-MAX_LENGTH_EMAIL = 254
-MAX_LENGTH_NAME = 150
-MIN_PASSWORD_LENGTH = 8
-MAX_LENGTH_SLUG = 50
-ITEMS_ON_PAGE = 6
-MIN_AMOUNT = 1
-MIN_TIME = 1
-MAX_LENGTH_RECIPE = 256
-MIN_AMOUNT = 1
 
 
 class TimeStampModel(models.Model):
