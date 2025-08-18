@@ -1,16 +1,6 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from backend.constants import (
-    MAX_LENGTH_EMAIL,
-    MAX_LENGTH_NAME,
-    MIN_PASSWORD_LENGTH,
-    MAX_LENGTH_SLUG,
-    ITEMS_ON_PAGE,
-    MIN_AMOUNT,
-    MIN_TIME,
-    MAX_LENGTH_RECIPE,
-)
 
 load_dotenv()
 
