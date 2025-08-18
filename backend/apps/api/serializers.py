@@ -43,7 +43,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
                                        queryset=User.objects.all(),
                                        message='Почта уже занята')])
     username = serializers.CharField(
-        max_length=settings.,
+        max_length=MAX_LENGTH_NAME,
         required=True,
         validators=[
             RegexValidator(regex=r'^[\w.@+-]+$',
