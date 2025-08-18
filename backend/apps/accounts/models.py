@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 
-from foodgram.settings import MAX_LENGTH_EMAIL, MAX_LENGTH_NAME
+from backend.constants import MAX_LENGTH_EMAIL, MAX_LENGTH_NAME
 
 
 class User(AbstractUser):

@@ -4,12 +4,15 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from apps.accounts.models import Subscription
+from backend.constants import (MIN_PASSWORD_LENGTH,
+                               MAX_LENGTH_NAME,
+                               MAX_LENGTH_EMAIL
+                               )
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
-
 from apps.recipe.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                                 ShoppingCart, Tag)
-from apps.accounts.models import Subscription
 
 User = get_user_model()
 
@@ -25,13 +28,13 @@ class TokenCreateSerializer(serializers.Serializer):
 class CreateUserSerializer(serializers.ModelSerializer):
     """Сериализатор создания пользователя."""
 
-    password = serializers.CharField(min_length=settings.MIN_PASSWORD_LENGTH,
+    password = serializers.CharField(min_length=MIN_PASSWORD_LENGTH,
                                      write_only=True, required=True)
     first_name = serializers.CharField(required=True,
-                                       max_length=settings.MAX_LENGTH_NAME)
+                                       max_length=MAX_LENGTH_NAME)
     last_name = serializers.CharField(required=True,
-                                      max_length=settings.MAX_LENGTH_NAME)
-    email = serializers.EmailField(max_length=settings.MAX_LENGTH_EMAIL,
+                                      max_length=MAX_LENGTH_NAME)
+    email = serializers.EmailField(max_length=MAX_LENGTH_EMAIL,
                                    required=True,
                                    validators=[UniqueValidator(
                                        queryset=User.objects.all(),
