@@ -7,7 +7,10 @@ from django.core.validators import RegexValidator
 from apps.accounts.models import Subscription
 from backend.constants import (MIN_PASSWORD_LENGTH,
                                MAX_LENGTH_NAME,
-                               MAX_LENGTH_EMAIL
+                               MAX_LENGTH_EMAIL,
+                               MIN_AMOUNT,
+                               MIN_TIME,
+                               MAX_LENGTH_RECIPE
                                )
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
@@ -40,7 +43,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
                                        queryset=User.objects.all(),
                                        message='Почта уже занята')])
     username = serializers.CharField(
-        max_length=settings.MAX_LENGTH_NAME,
+        max_length=settings.,
         required=True,
         validators=[
             RegexValidator(regex=r'^[\w.@+-]+$',
@@ -64,7 +67,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    """Сериализатор получения инфо о юзере."""
+    """Сериализатор получения инфо о пользователе."""
 
     is_subscribed = serializers.SerializerMethodField(
         method_name='get_is_followed',
@@ -100,7 +103,7 @@ class ChangePasswordSerializer(serializers.Serializer):
     """Сериализатор изменения пароля."""
 
     new_password = serializers.CharField(
-        min_length=settings.MIN_PASSWORD_LENGTH,
+        min_length=MIN_PASSWORD_LENGTH,
         style={'input_type': 'password'})
     current_password = serializers.CharField(style={'input_type': 'password'})
 
@@ -209,7 +212,7 @@ class CreateRecipeIngredientSerializer(serializers.ModelSerializer):
                                             source='ingredient',
                                             required=True)
     amount = serializers.IntegerField(required=True,
-                                      min_value=settings.MIN_AMOUNT)
+                                      min_value=MIN_AMOUNT)
 
     class Meta:
         model = RecipeIngredient
@@ -224,8 +227,8 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(), many=True, write_only=True, required=True)
     name = serializers.CharField(required=True,
-                                 max_length=settings.MAX_LENGTH_RECIPE)
-    cooking_time = serializers.IntegerField(min_value=settings.MIN_TIME,
+                                 max_length=MAX_LENGTH_RECIPE)
+    cooking_time = serializers.IntegerField(min_value=MIN_TIME,
                                             required=True)
     image = Base64ImageField()
 
