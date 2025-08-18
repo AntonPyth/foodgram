@@ -3,10 +3,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from apps.accounts.models import Subscription
-from apps.recipe.models import (Favorite, Ingredient, 
-                                Recipe, RecipeIngredient,
-                                ShoppingCart, Tag)
+from accounts.models import Subscription
+from recipe.models import (Favorite, Ingredient,
+                           Recipe, RecipeIngredient,
+                           ShoppingCart, Tag)
 from backend.constants import (MIN_PASSWORD_LENGTH,
                                MAX_LENGTH_NAME,
                                MAX_LENGTH_EMAIL,
