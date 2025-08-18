@@ -1,31 +1,30 @@
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, get_user_model
+from django.core.exceptions import ObjectDoesNotExist, ValidationError  # Объединено
 from django.db.models import Sum
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import TokenCreateView, TokenDestroyView, UserViewSet
 from rest_framework import status, viewsets
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 
-from .filters import IngredientFilter, RecipeFilter
-from .serializers import (
-    CreateRecipeSerializer, FavoriteSerializer, IngredientSerializer,
-    ReadRecipeSerializer, ShoppingCartSerializer, ShortRecipeSerializer,
-    TagSerializer, ChangePasswordSerializer, CreateUserSerializer,
-    CustomUserSerializer, FollowSerializer, GetFollowSerializer,
-    UserAvatarSerializer)
+from apps.accounts.models import Subscription
 from apps.recipe.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                                 ShoppingCart, Tag)
-from apps.accounts.models import Subscription
+from .filters import IngredientFilter, RecipeFilter
 from .pagination import Pagination
 from .permissions import IsOwnerOrReadOnly
+from .serializers import (
+    ChangePasswordSerializer, CreateRecipeSerializer, CreateUserSerializer,
+    CustomUserSerializer, FavoriteSerializer, FollowSerializer,
+    GetFollowSerializer, IngredientSerializer, ReadRecipeSerializer,
+    ShoppingCartSerializer, ShortRecipeSerializer, TagSerializer,
+    UserAvatarSerializer)
 
 User = get_user_model()
 
