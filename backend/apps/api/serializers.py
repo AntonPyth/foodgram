@@ -1,5 +1,4 @@
 from drf_extra_fields.fields import Base64ImageField
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
