@@ -13,7 +13,7 @@ paths:
           in: query
           description: Номер страницы.
           schema:
-            type: integer
+            type: constants
         - name: limit
           required: false
           in: query

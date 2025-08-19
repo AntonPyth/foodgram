@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=150, verbose_name='Рецепт')),
                 ('image', models.ImageField(upload_to='recipe_images/', verbose_name='Изображение рецепта')),
                 ('text', models.TextField(verbose_name='Описание рецепта')),
-                ('cooking_time', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1)], verbose_name='Время приготовления')),
+                ('cooking_time', models.PositiveSmallIntegerField(validators=[django.core.validators.MinValueValidator(1)], verbose_name='Время приготовления')),
                 ('short_link', models.UUIDField(default=uuid.uuid4, editable=False)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='recipes', to=settings.AUTH_USER_MODEL, verbose_name='Автор')),
             ],
@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
             name='RecipeIngredient',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.PositiveIntegerField(default=1, validators=[django.core.validators.MinValueValidator(1)], verbose_name='Количество/объем')),
+                ('amount', models.constantsField(default=1, validators=[django.core.validators.MinValueValidator(1)], verbose_name='Количество/объем')),
                 ('ingredient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipe.ingredient', verbose_name='Ингредиент')),
                 ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipe.recipe', verbose_name='Рецепт')),
             ],

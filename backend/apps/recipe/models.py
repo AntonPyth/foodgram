@@ -11,6 +11,7 @@ User = get_user_model()
 
 class TimeStampModel(models.Model):
     """Базовая абстракная модель."""
+
     created_at = models.DateTimeField(
         verbose_name='Дата создания',
         auto_now_add=True,
@@ -102,7 +103,7 @@ class Recipe(TimeStampModel):
         Tag,
         verbose_name='Тэги',
     )
-    cooking_time = models.PositiveIntegerField(
+    cooking_time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления',
         validators=[MinValueValidator(1)]
     )
@@ -130,7 +131,7 @@ class RecipeIngredient(models.Model):
         blank=False,
         null=False,
     )
-    amount = models.PositiveIntegerField(
+    amount = models.PositiveSmallIntegerField(
         verbose_name='Количество/объем',
         default=MIN_AMOUNT,
         validators=[MinValueValidator(MIN_AMOUNT)],
