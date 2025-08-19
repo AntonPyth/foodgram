@@ -70,11 +70,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
     """Сериализатор получения инфо о пользователе."""
 
     is_subscribed = serializers.SerializerMethodField(
-        method_name='get_is_followed',
+        method_name='is_followed_by',
     )
     avatar = Base64ImageField()
 
-    def get_is_followed(self, obj):
+    def is_followed_by(self, obj):
         request = self.context.get('request')
         return (
             request
