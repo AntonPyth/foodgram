@@ -7,13 +7,13 @@ from accounts.models import Subscription
 from recipe.models import (Favorite, Ingredient,
                            Recipe, RecipeIngredient,
                            ShoppingCart, Tag)
-from backend.constants import (MIN_PASSWORD_LENGTH,
-                               MAX_LENGTH_NAME,
-                               MAX_LENGTH_EMAIL,
-                               MIN_AMOUNT,
-                               MIN_TIME,
-                               MAX_LENGTH_RECIPE
-                               )
+from constants import (MIN_PASSWORD_LENGTH,
+                       MAX_LENGTH_NAME,
+                       MAX_LENGTH_EMAIL,
+                       MIN_AMOUNT,
+                       MIN_TIME,
+                       MAX_LENGTH_RECIPE
+                       )
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
