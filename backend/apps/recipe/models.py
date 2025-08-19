@@ -147,8 +147,11 @@ class RecipeIngredient(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.amount} {self.ingredient.measurement_unit} ' \
+        return (
+            f'{self.amount} '
+            f'{self.ingredient.measurement_unit} '
             f'{self.ingredient.name}'
+        )
 
 
 class Favorite(TimeStampModel):
