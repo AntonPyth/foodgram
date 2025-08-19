@@ -128,15 +128,11 @@ class RecipeIngredient(models.Model):
         Ingredient,
         on_delete=models.CASCADE,
         verbose_name='Ингредиент',
-        blank=False,
-        null=False,
     )
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество/объем',
         default=MIN_AMOUNT,
         validators=[MinValueValidator(MIN_AMOUNT)],
-        blank=False,
-        null=False,
     )
 
     class Meta:
