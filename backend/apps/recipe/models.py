@@ -156,6 +156,7 @@ class RecipeIngredient(models.Model):
 
 class Favorite(TimeStampModel):
     """Модель избранного."""
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

@@ -12,7 +12,6 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-
 from apps.accounts.models import Subscription
 from apps.recipe.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                                 ShoppingCart, Tag)
