@@ -11,6 +11,4 @@ class IsOwnerOrReadOnly(BasePermission):
         return owner == request.user
 
     def has_permission(self, request, view):
-        return request.user.is_authenticated or request.method in [
-            'GET', 'HEAD', 'OPTIONS'
-        ]
+        return request.user.is_authenticated or request.method in SAFE_METHODS
