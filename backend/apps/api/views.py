@@ -75,7 +75,10 @@ class RecipesViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
     pagination_class = Pagination
-    queryset = Recipe.objects.all()
+    queryset = Recipe.objects.select_related('author').prefetch_related(
+        'tags',
+        'ingredients'
+    )
     serializer_class = ReadRecipeSerializer
 
     def get_permissions(self):
