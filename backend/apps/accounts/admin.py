@@ -41,6 +41,7 @@ class CustomUserAdmin(UserAdmin):
 
     readonly_fields = ()
 
+
 @admin.register(Subscription)
 class SubscribeAdmin(admin.ModelAdmin):
     list_display = ('id', 'subscriber', 'target',)
