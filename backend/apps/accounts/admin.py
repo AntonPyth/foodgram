@@ -12,6 +12,7 @@ User = get_user_model()
 admin.site.unregister(Group)
 
 
+@admin.register(User)
 class CustomUserAdmin(UserAdmin):
     form = UserChangeForm
     change_password_form = AdminPasswordChangeForm
@@ -39,10 +40,6 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
     readonly_fields = ()
-
-
-admin.site.register(User, CustomUserAdmin)
-
 
 @admin.register(Subscription)
 class SubscribeAdmin(admin.ModelAdmin):

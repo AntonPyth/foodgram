@@ -94,7 +94,6 @@ class UserAvatarSerializer(serializers.ModelSerializer):
     avatar = Base64ImageField()
 
     class Meta:
-
         model = User
         fields = ('avatar',)
 
