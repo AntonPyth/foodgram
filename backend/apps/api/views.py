@@ -119,10 +119,10 @@ class RecipesViewSet(viewsets.ModelViewSet):
             .order_by('ingredient__name')
         )
         output = '\n'.join(
-            f'{num}. {item["ingredient__name"]} - '
+            f'{counter}. {item["ingredient__name"]} - '
             f'{item["total_amount"]} '
             f'{item["ingredient__measurement_unit"]}.'
-            for num, item in enumerate(ingredients, start=1)
+            for counter, item in enumerate(ingredients, start=1)
         )
         return HttpResponse(output, content_type='text/plain')
 
