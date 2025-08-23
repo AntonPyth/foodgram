@@ -97,20 +97,21 @@ class RecipesViewSet(viewsets.ModelViewSet):
         return super().get_serializer_class()
 
     def handle_post_delete(self, request, model, serializer_class, pk):
+        """Обработка добавления/удаления рецепта в избранное или корзину."""
         recipe = get_object_or_404(Recipe, id=pk)
         user = request.user
+
         if request.method == 'POST':
             data = {'recipe': recipe.id, 'user': user.id}
-            serializer = serializer_class(data=data,
-                                          context={'request': request})
+            serializer = serializer_class(data=data, context={'request': request})
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        instance = model.objects.filter(recipe=recipe, user=user)
-        if not instance.exists():
+
+        deleted_count, _ = model.objects.filter(recipe=recipe, user=user).delete()
+        if deleted_count == 0:
             return Response({'error': 'Рецепт не найден'},
                             status=status.HTTP_400_BAD_REQUEST)
-        instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=True, methods=['POST', 'DELETE'], url_path='favorite',
