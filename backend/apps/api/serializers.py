@@ -107,35 +107,35 @@ class UserAvatarSerializer(serializers.ModelSerializer):
         fields = ('avatar',)
 
 
-class ChangePasswordSerializer(serializers.Serializer):
-    """Сериализатор изменения пароля."""
+# class ChangePasswordSerializer(serializers.Serializer):
+#     """Сериализатор изменения пароля."""
 
-    new_password = serializers.CharField(
-        min_length=MIN_PASSWORD_LENGTH,
-        style={'input_type': 'password'})
-    current_password = serializers.CharField(style={'input_type': 'password'})
+#     new_password = serializers.CharField(
+#         min_length=MIN_PASSWORD_LENGTH,
+#         style={'input_type': 'password'})
+#     current_password = serializers.CharField(style={'input_type': 'password'})
 
-    def validate_new_password(self, value):
-        """Валидация new_password."""
-        try:
-            validate_password(value)
-        except ValidationError as err:
-            raise serializers.ValidationError(
-                {'new_password': list(err.messages)}
-            )
-        return value
+#     def validate_new_password(self, value):
+#         """Валидация new_password."""
+#         try:
+#             validate_password(value)
+#         except ValidationError as err:
+#             raise serializers.ValidationError(
+#                 {'new_password': list(err.messages)}
+#             )
+#         return value
 
-    def validate(self, data):
-        """Проверка на совпадение паролей."""
-        if not self.context.get('request').user.check_password(
-            data['current_password']
-        ):
-            raise serializers.ValidationError({
-                'current_password': 'Старый пароль неверный'})
-        if data['new_password'] == data['current_password']:
-            raise serializers.ValidationError({
-                'new_password': 'Пароли не должны совпадать'})
-        return data
+#     def validate(self, data):
+#         """Проверка на совпадение паролей."""
+#         if not self.context.get('request').user.check_password(
+#             data['current_password']
+#         ):
+#             raise serializers.ValidationError({
+#                 'current_password': 'Старый пароль неверный'})
+#         if data['new_password'] == data['current_password']:
+#             raise serializers.ValidationError({
+#                 'new_password': 'Пароли не должны совпадать'})
+#         return data
 
 
 class TagSerializer(serializers.ModelSerializer):

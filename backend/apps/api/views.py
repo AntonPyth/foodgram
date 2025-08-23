@@ -28,7 +28,6 @@ from .filters import IngredientFilter, RecipeFilter
 from .pagination import Pagination
 from .permissions import IsOwnerOrReadOnly
 from .serializers import (
-    ChangePasswordSerializer,
     CreateRecipeSerializer,
     CreateUserSerializer,
     CustomUserSerializer,
@@ -263,22 +262,21 @@ class CustomUserViewSet(UserViewSet):
             request.user.avatar.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=False, methods=('POST', ), url_path='set_password',
-            permission_classes=(IsOwnerOrReadOnly, ), )
-    def set_password(self, request):
-        """Кастомное изменение пароля."""
+    # @action(detail=False, methods=('POST', ), url_path='set_password',
+    #         permission_classes=(IsOwnerOrReadOnly, ), )
+    # def set_password(self, request):
+        # """Кастомное изменение пароля."""
 
-        serializer = ChangePasswordSerializer(data=request.data,
-                                              context={'request': request})
-        if not serializer.is_valid():
-            return Response(
-                serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST)
-        new_password = serializer.validated_data['new_password']
-        request.user.set_password(new_password)
-        request.user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+        # serializer = ChangePasswordSerializer(data=request.data,
+        #                                       context={'request': request})
+        # if not serializer.is_valid():
+        #     return Response(
+        #         serializer.errors,
+        #         status=status.HTTP_400_BAD_REQUEST)
+        # new_password = serializer.validated_data['new_password']
+        # request.user.set_password(new_password)
+        # request.user.save()
+        # return Response(status=status.HTTP_204_NO_CONTENT)
     @action(methods=('GET',), detail=False, url_path='subscriptions',
             permission_classes=(IsAuthenticated,), )
     def get_subscriptions(self, request):
