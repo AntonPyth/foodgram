@@ -259,21 +259,36 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         ]
         RecipeIngredient.objects.bulk_create(recipe_ingredients)
 
+    def _update_tags_and_ingredients(
+            self,
+            recipe,
+            tags,
+            ingredients,
+            is_update=False
+    ):
+        """Обновление тегов и ингредиентов для рецепта."""
+        if is_update:
+            recipe.tags.clear()
+            recipe.recipe_ingredients.all().delete()
+        recipe.tags.set(tags)
+        self._create_ingredients(recipe, ingredients)
+
     def create(self, validated_data):
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(**validated_data)
-        self._create_ingredients(recipe, ingredients)
-        recipe.tags.set(tags)
+        self._update_tags_and_ingredients(recipe, tags, ingredients)
         return recipe
 
     def update(self, instance, validated_data):
-        instance.recipe_ingredients.all().delete()
-        instance.tags.clear()
-        ingredients = validated_data.pop('ingredients')
         tags = validated_data.pop('tags')
-        self._create_ingredients(instance, ingredients)
-        instance.tags.set(tags)
+        ingredients = validated_data.pop('ingredients')
+        self._update_tags_and_ingredients(
+            instance,
+            tags,
+            ingredients,
+            is_update=True
+        )
         return super().update(instance, validated_data)
 
     def validate_image(self, value):
