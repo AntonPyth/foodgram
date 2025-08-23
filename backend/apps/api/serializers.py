@@ -1,7 +1,6 @@
 from drf_extra_fields.fields import Base64ImageField
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from accounts.models import Subscription
 from recipe.models import (Favorite, Ingredient,
@@ -113,7 +112,8 @@ class UserAvatarSerializer(serializers.ModelSerializer):
 #     new_password = serializers.CharField(
 #         min_length=MIN_PASSWORD_LENGTH,
 #         style={'input_type': 'password'})
-#     current_password = serializers.CharField(style={'input_type': 'password'})
+#     current_password = serializers.CharField(
+#           style={'input_type': 'password'})
 
 #     def validate_new_password(self, value):
 #         """Валидация new_password."""
