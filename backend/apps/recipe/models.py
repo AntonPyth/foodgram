@@ -77,6 +77,7 @@ class Tag(TimeStampModel):
 
 class Recipe(TimeStampModel):
     """Модель Рецептов."""
+
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -97,11 +98,13 @@ class Recipe(TimeStampModel):
     ingredients = models.ManyToManyField(
         Ingredient,
         through='RecipeIngredient',
-        verbose_name='Ингредиенты',
+        related_name='recipes',
+        verbose_name='Ингредиенты'
     )
     tags = models.ManyToManyField(
         Tag,
         verbose_name='Тэги',
+        related_name='recipes'
     )
     cooking_time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления',
@@ -119,15 +122,18 @@ class Recipe(TimeStampModel):
 
 class RecipeIngredient(models.Model):
     """Модель связи рецептов и ингредиентов."""
+
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
+        related_name='ingredients_amount',
         verbose_name='Рецепт'
     )
     ingredient = models.ForeignKey(
         Ingredient,
         on_delete=models.CASCADE,
-        verbose_name='Ингредиент',
+        related_name='ingredients_amount',
+        verbose_name='Ингредиент'
     )
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество/объем',
@@ -175,7 +181,9 @@ class Favorite(TimeStampModel):
         verbose_name_plural = 'Избранные рецепты'
 
     def __str__(self):
-        return f'{self.user.username} - {self.recipe.name}'
+        user_name = self.user.username if self.user else 'Unknown User'
+        recipe_name = self.recipe.name if self.recipe else 'Unknown Recipe'
+        return f'{user_name} - {recipe_name}'
 
 
 class ShoppingCart(models.Model):
