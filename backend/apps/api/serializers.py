@@ -31,17 +31,22 @@ class TokenCreateSerializer(serializers.Serializer):
 class CreateUserSerializer(serializers.ModelSerializer):
     """Сериализатор создания пользователя."""
 
-    password = serializers.CharField(min_length=MIN_PASSWORD_LENGTH,
-                                     write_only=True, required=True)
-    first_name = serializers.CharField(required=True,
-                                       max_length=MAX_LENGTH_NAME)
-    last_name = serializers.CharField(required=True,
-                                      max_length=MAX_LENGTH_NAME)
-    email = serializers.EmailField(max_length=MAX_LENGTH_EMAIL,
-                                   required=True,
-                                   validators=[UniqueValidator(
-                                       queryset=User.objects.all(),
-                                       message='Почта уже занята')])
+    password = serializers.CharField(
+        min_length=MIN_PASSWORD_LENGTH,
+        write_only=True,
+        required=True
+    )
+
+    email = serializers.EmailField(
+        max_length=MAX_LENGTH_EMAIL,
+        required=True,
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message='Почта уже занята'
+            )
+        ]
+    )
     username = serializers.CharField(
         max_length=MAX_LENGTH_NAME,
         required=True,
@@ -54,9 +59,13 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name',
+        fields = ('id',
+                  'email',
+                  'username',
+                  'first_name',
+                  'last_name',
                   'password')
-
+        
     def create(self, validated_data):
         password = validated_data.pop('password')
         user = User.objects.create(**validated_data)
@@ -146,7 +155,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 
 class ReadRecipeIngredientSerializer(serializers.ModelSerializer):
-    """Сериализатор представления ингредиентов при предствлении рецепта."""
+    """Сериализатор представления ингредиентов при представлении рецепта."""
 
     id = serializers.IntegerField(source='ingredient.id')
     name = serializers.CharField(source='ingredient.name', read_only=True)
