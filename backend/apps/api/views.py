@@ -111,7 +111,9 @@ class RecipesViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        deleted_count, _ = model.objects.filter(recipe=recipe, user=user).delete()
+        deleted_count, _ = model.objects.filter(
+            recipe=recipe, user=user
+        ).delete()
         if deleted_count == 0:
             return Response({'error': 'Рецепт не найден'},
                             status=status.HTTP_400_BAD_REQUEST)
