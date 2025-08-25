@@ -1,7 +1,7 @@
 from io import BytesIO
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import ValidationError
 from django.db.models import Sum, Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
