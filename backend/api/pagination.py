@@ -1,6 +1,6 @@
 from rest_framework import pagination
 
-from backend.foodgram.constants import ITEMS_ON_PAGE
+from foodgram.constants import ITEMS_ON_PAGE
 
 
 class Pagination(pagination.PageNumberPagination):
