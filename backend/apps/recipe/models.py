@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
-from backend.foodgram.constants import (MAX_LENGTH_NAME,
-                       MAX_LENGTH_SLUG,
-                       MIN_AMOUNT
-                       )
+from backend.foodgram.constants import (
+    MAX_LENGTH_NAME,
+    MAX_LENGTH_SLUG,
+    MIN_AMOUNT
+)
 
 User = get_user_model()
 
