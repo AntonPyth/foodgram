@@ -33,9 +33,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'django_filters',
-    'apps.api.apps.ApiConfig',
-    'apps.recipe.apps.RecipeConfig',
-    'apps.accounts.apps.AccountsConfig',
+    'api.ApiConfig',
+    'recipe.RecipeConfig',
+    'accounts.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -138,9 +138,9 @@ DJOSER = {
     'LOGIN_FIELD': 'email',
     'SEND_ACTIVATION_EMAIL': False,
     'SERIALIZERS': {
-        'token_create': 'apps.api.serializers.TokenCreateSerializer',
+        'token_create': 'api.serializers.TokenCreateSerializer',
     },
     'VIEWS': {
-        'token': 'apps.api.views.CustomTokenCreateView',
+        'token': 'api.views.CustomTokenCreateView',
     },
 }
