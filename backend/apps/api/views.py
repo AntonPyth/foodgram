@@ -1,3 +1,4 @@
+from io import BytesIO
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -133,24 +134,32 @@ class RecipesViewSet(viewsets.ModelViewSet):
         return self.handle_post_delete(request, ShoppingCart,
                                        ShoppingCartSerializer, pk)
 
-    @action(detail=False, methods=['GET'], url_path='download_shopping_cart',
-            permission_classes=(IsAuthenticated,),)
-    def download_shopping_cart(self, request):
-        """Скачать список ингредиентов из корзины."""
-        ingredients = (
-            RecipeIngredient.objects.
-            filter(recipe__in_shopping_cart__user=request.user)
-            .values('ingredient__name', 'ingredient__measurement_unit')
-            .annotate(total_amount=Sum('amount'))
-            .order_by('ingredient__name')
-        )
+    def generate_shopping_list_buffer(self, ingredients):
+        """Генерирует буфер BytesIO со списком покупок."""
         output = '\n'.join(
             f'{counter}. {item["ingredient__name"]} - '
             f'{item["total_amount"]} '
             f'{item["ingredient__measurement_unit"]}.'
             for counter, item in enumerate(ingredients, start=1)
         )
-        return HttpResponse(output, content_type='text/plain')
+        buffer = BytesIO(output.encode('utf-8'))
+        return buffer
+
+    @action(detail=False, methods=['GET'], url_path='download_shopping_cart',
+            permission_classes=(IsAuthenticated,),)
+    def download_shopping_cart(self, request):
+        """Скачать список ингредиентов из корзины."""
+        ingredients = (
+            RecipeIngredient.objects
+            .filter(recipe__in_shopping_cart__user=request.user)
+            .values('ingredient__name', 'ingredient__measurement_unit')
+            .annotate(total_amount=Sum('amount'))
+            .order_by('ingredient__name')
+        )
+        buffer = self.generate_shopping_list_buffer(ingredients)
+        response = HttpResponse(buffer.getvalue(), content_type='text/plain')
+        buffer.close()
+        return response
 
     @action(detail=True, methods=['GET'], url_path='get-link')
     def generate_short_link(self, request, pk=None):
