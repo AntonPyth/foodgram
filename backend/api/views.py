@@ -188,7 +188,7 @@ class CustomTokenCreateView(TokenCreateView):
         try:
             email = serializer.validated_data['email']
             password = serializer.validated_data['password']
-            user = User.objects.get(email=email)
+            user = get_object_or_404(User, email=email)
             user = authenticate(username=email, password=password)
             if user:
                 token, created = Token.objects.get_or_create(user=user)
@@ -196,10 +196,6 @@ class CustomTokenCreateView(TokenCreateView):
                                 status=status.HTTP_200_OK)
             return Response({'error': 'Неверные учетные данные'},
                             status=status.HTTP_400_BAD_REQUEST)
-        except ObjectDoesNotExist:
-            return Response({
-                'error': 'Пользователь с таким email не найден'
-            }, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({
                 'error': str(e)
