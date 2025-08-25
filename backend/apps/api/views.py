@@ -232,14 +232,12 @@ class CustomUserViewSet(UserViewSet):
 
     def get_permissions(self):
         """Получение класса ограничения."""
-
         if self.action in ('list', 'retrieve', 'create'):
             return (AllowAny(),)
         return super().get_permissions()
 
     def get_serializer_class(self):
         """Получение класса сериализатора."""
-
         if self.action in ('list', 'retrieve'):
             return CustomUserSerializer
         if self.action == 'create':
@@ -250,7 +248,6 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsAuthenticated,),)
     def me(self, request):
         """Получение текущего пользователя."""
-
         serializer = CustomUserSerializer(request.user,
                                           context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -259,7 +256,6 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsAuthenticated,), )
     def user_avatar(self, request):
         """Добавления и удаление аватара."""
-
         user = get_object_or_404(User, username=request.user.username)
         if request.method == 'PUT':
             avatar_data = request.data.get('avatar')
@@ -277,26 +273,10 @@ class CustomUserViewSet(UserViewSet):
             request.user.avatar.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-    # @action(detail=False, methods=('POST', ), url_path='set_password',
-    #         permission_classes=(IsOwnerOrReadOnly, ), )
-    # def set_password(self, request):
-        # """Кастомное изменение пароля."""
-
-        # serializer = ChangePasswordSerializer(data=request.data,
-        #                                       context={'request': request})
-        # if not serializer.is_valid():
-        #     return Response(
-        #         serializer.errors,
-        #         status=status.HTTP_400_BAD_REQUEST)
-        # new_password = serializer.validated_data['new_password']
-        # request.user.set_password(new_password)
-        # request.user.save()
-        # return Response(status=status.HTTP_204_NO_CONTENT)
     @action(methods=('GET',), detail=False, url_path='subscriptions',
             permission_classes=(IsAuthenticated,), )
     def get_subscriptions(self, request):
         """Получение списка подписок."""
-
         following_users = User.objects.filter(
             subscribers__subscriber=request.user
         ).annotate(recipes_count=Count('recipes')).distinct()
@@ -310,7 +290,6 @@ class CustomUserViewSet(UserViewSet):
             permission_classes=(IsAuthenticated,), )
     def subscribe(self, request, id):
         """Подписка/отписка на пользователя."""
-
         following = get_object_or_404(User, id=id)
         if request.method == 'POST':
             serializer = FollowSerializer(

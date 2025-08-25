@@ -4,9 +4,9 @@ print("=== sys.path ===")
 for p in sys.path:
     print(p)
 
-print("\n=== Импорт constants ===")
+print("\n=== Импорт foodgram.constants ===")
 try:
-    import constants as const
+    import backend.foodgram.foodgram.constants as const
     print("✅ Успешно импортирован!")
     print("Содержимое:", dir(const))
 except ModuleNotFoundError as e:

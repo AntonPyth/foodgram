@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
             name='RecipeIngredient',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.constantsField(default=1, validators=[django.core.validators.MinValueValidator(1)], verbose_name='Количество/объем')),
+                ('amount', models.foodgram.constantsField(default=1, validators=[django.core.validators.MinValueValidator(1)], verbose_name='Количество/объем')),
                 ('ingredient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipe.ingredient', verbose_name='Ингредиент')),
                 ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='recipe.recipe', verbose_name='Рецепт')),
             ],

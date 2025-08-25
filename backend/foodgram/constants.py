@@ -1,4 +1,4 @@
-# project constants
+# project foodgram.constants
 MAX_LENGTH_RECIPE = 256
 MIN_PASSWORD_LENGTH = 8
 MAX_LENGTH_EMAIL = 254
