@@ -355,9 +355,7 @@ class GetFollowSerializer(CustomUserSerializer):
     """Сериализатор получения подписок пользователя."""
 
     recipes = serializers.SerializerMethodField(method_name='get_recipe')
-    recipes_count = serializers.SerializerMethodField(
-        method_name='get_recipes_count',
-    )
+    recipes_count = serializers.IntegerField(read_only=True, default=0)
 
     class Meta:
         model = User
@@ -375,9 +373,6 @@ class GetFollowSerializer(CustomUserSerializer):
         return ShortRecipeSerializer(
             recipes, many=True, context=self.context
         ).data
-
-    def get_recipes_count(self, obj):
-        return obj.recipes.count()
 
 
 class FollowSerializer(serializers.ModelSerializer):

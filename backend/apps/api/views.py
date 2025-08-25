@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django_filters.rest_framework import DjangoFilterBackend
@@ -290,7 +290,7 @@ class CustomUserViewSet(UserViewSet):
 
         following_users = User.objects.filter(
             subscribers__subscriber=request.user
-        ).distinct()
+        ).annotate(recipes_count=Count('recipes')).distinct()
         paginator = Pagination()
         result_page = paginator.paginate_queryset(following_users, request)
         serializer = GetFollowSerializer(result_page, many=True,
@@ -312,7 +312,16 @@ class CustomUserViewSet(UserViewSet):
             )
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            annotated_target = User.objects.annotate(
+                recipes_count=Count('recipes')
+            ).get(id=following.id)
+            follow_serializer = GetFollowSerializer(
+                annotated_target, context={'request': request}
+            )
+            return Response(
+                follow_serializer.data, status=status.HTTP_201_CREATED
+            )
+
         elif request.method == 'DELETE':
             follow = Subscription.objects.filter(subscriber=request.user.id,
                                                  target=following.id,)
