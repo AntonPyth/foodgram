@@ -113,7 +113,7 @@ class UserAvatarSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('avatar',)
+        fields = ('avatar')
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -221,10 +221,10 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(), many=True, write_only=True, required=True)
-    name = serializers.CharField(required=True,
-                                 max_length=MAX_LENGTH_RECIPE)
-    cooking_time = serializers.IntegerField(min_value=MIN_TIME,
-                                            required=True)
+    name = serializers.CharField(
+        required=True,
+        max_length=MAX_LENGTH_RECIPE
+    )
     image = Base64ImageField()
 
     class Meta:
