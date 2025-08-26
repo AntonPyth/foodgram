@@ -15,7 +15,6 @@ from foodgram.constants import (
     MAX_LENGTH_NAME,
     MAX_LENGTH_EMAIL,
     MIN_AMOUNT,
-    MIN_TIME,
     MAX_LENGTH_RECIPE
 )
 
