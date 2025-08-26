@@ -33,14 +33,11 @@ class CreateUserSerializer(serializers.ModelSerializer):
     """Сериализатор создания пользователя."""
 
     password = serializers.CharField(
-        min_length=MIN_PASSWORD_LENGTH,
         write_only=True,
         required=True
     )
 
     email = serializers.EmailField(
-        max_length=MAX_LENGTH_EMAIL,
-        required=True,
         validators=[
             UniqueValidator(
                 queryset=User.objects.all(),
@@ -49,14 +46,14 @@ class CreateUserSerializer(serializers.ModelSerializer):
         ]
     )
     username = serializers.CharField(
-        max_length=MAX_LENGTH_NAME,
-        required=True,
         validators=[
             RegexValidator(regex=r'^[\w.@+-]+$',
                            message=('Никнейм может содержать только цифры,'
                                     'буквы и символы: . @ + -')),
             UniqueValidator(queryset=User.objects.all(),
-                            message='Никнейм уже занят')])
+                            message='Никнейм уже занят')
+        ]
+    )
 
     class Meta:
         model = User
@@ -77,7 +74,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    """Сериализатор получения инфо о пользователе."""
+    """Сериализатор получения информации о пользователе."""
 
     is_subscribed = serializers.SerializerMethodField(
         method_name='is_followed_by',
@@ -202,11 +199,11 @@ class ShortRecipeSerializer(serializers.ModelSerializer):
 class CreateRecipeIngredientSerializer(serializers.ModelSerializer):
     """Сериализатор создания ингредиентов при создании рецепта."""
 
-    id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all(),
-                                            source='ingredient',
-                                            required=True)
-    amount = serializers.IntegerField(required=True,
-                                      min_value=MIN_AMOUNT)
+    id = serializers.PrimaryKeyRelatedField(
+        queryset=Ingredient.objects.all(),  # pylint: disable=no-member
+        source='ingredient',
+        required=True
+    )
 
     class Meta:
         model = RecipeIngredient
