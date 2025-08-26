@@ -11,10 +11,6 @@ from recipe.models import (Favorite, Ingredient,
                            Recipe, RecipeIngredient,
                            ShoppingCart, Tag)
 from foodgram.constants import (
-    MIN_PASSWORD_LENGTH,
-    MAX_LENGTH_NAME,
-    MAX_LENGTH_EMAIL,
-    MIN_AMOUNT,
     MAX_LENGTH_RECIPE
 )
 
