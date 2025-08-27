@@ -209,10 +209,19 @@ class CreateRecipeIngredientSerializer(serializers.ModelSerializer):
 class CreateRecipeSerializer(serializers.ModelSerializer):
     """Сериализатор для создания рецепта."""
 
-    ingredients = CreateRecipeIngredientSerializer(required=True, many=True)
+    ingredients = CreateRecipeIngredientSerializer(
+        required=True,
+        many=True,
+        allow_empty=False
+    )
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
     tags = serializers.PrimaryKeyRelatedField(
-        queryset=Tag.objects.all(), many=True, write_only=True, required=True)
+        queryset=Tag.objects.all(),
+        many=True,
+        write_only=True,
+        required=True,
+        allow_empty=False
+    )
     name = serializers.CharField(required=True, max_length=MAX_LENGTH_RECIPE)
     image = Base64ImageField()
 
@@ -260,26 +269,6 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
                 'Изображение обязательно при создании.'
             )
         return value
-
-    def _check_unique(self, items, field_name):
-        ids = [item.id if hasattr(item, 'id') else item.get('ingredient').id
-               for item in items]
-        if len(ids) != len(set(ids)):
-            raise serializers.ValidationError(
-                {field_name: f'{field_name.capitalize()} должны быть '
-                 f'уникальными.'})
-
-    def _check_required(self, attrs, field_name):
-        if field_name not in attrs or not attrs[field_name]:
-            raise serializers.ValidationError(
-                {field_name: f'{field_name.capitalize()} Обязательное поле.'})
-
-    def validate(self, attrs):
-        self._check_required(attrs, 'tags')
-        self._check_required(attrs, 'ingredients')
-        self._check_unique(attrs['tags'], 'tags')
-        self._check_unique(attrs['ingredients'], 'ingredients')
-        return attrs
 
     def to_representation(self, instance):
         return ReadRecipeSerializer(instance, context=self.context).data
