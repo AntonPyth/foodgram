@@ -1,28 +1,29 @@
 from io import BytesIO
-from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-from django.db.models import Sum, Count
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect
-from django_filters.rest_framework import DjangoFilterBackend
-from djoser.views import UserViewSet
-
-from rest_framework import status, viewsets
-from rest_framework.decorators import action, api_view, permission_classes
-from rest_framework.filters import SearchFilter
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
 
 from accounts.models import Subscription
+from django_filters.rest_framework import DjangoFilterBackend
+from djoser.views import UserViewSet
 from recipe.models import (
     Favorite,
     Ingredient,
     Recipe,
     RecipeIngredient,
     ShoppingCart,
-    Tag
+    Tag,
 )
+from rest_framework import status, viewsets
+from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.filters import SearchFilter
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.db.models import Count, Sum
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect
+
 from .filters import IngredientFilter, RecipeFilter
 from .pagination import Pagination
 from .permissions import IsOwnerOrReadOnly
@@ -38,7 +39,7 @@ from .serializers import (
     ShoppingCartSerializer,
     ShortRecipeSerializer,
     TagSerializer,
-    UserAvatarSerializer
+    UserAvatarSerializer,
 )
 
 User = get_user_model()
@@ -171,7 +172,6 @@ class RecipesViewSet(viewsets.ModelViewSet):
 @permission_classes((AllowAny, ))
 def redirect_to_recipe(request, recipe_id):
     """Редирект по короткой ссылке на детальный URL рецепта."""
-
     if not Recipe.objects.filter(id=recipe_id).exists():
         raise ValidationError(f'Рецепт с id={recipe_id} не существует')
     return redirect(f'/recipes/{recipe_id}/')

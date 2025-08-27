@@ -1,8 +1,14 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import (Favorite, Ingredient, Recipe, ShoppingCart, Tag,
-                     RecipeIngredient)
+from .models import (
+    Favorite,
+    Ingredient,
+    Recipe,
+    RecipeIngredient,
+    ShoppingCart,
+    Tag,
+)
 
 EMPTY_MSG = '-пусто-'
 
