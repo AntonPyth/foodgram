@@ -231,8 +231,12 @@ class CustomUserViewSet(UserViewSet):
                                          context={'request': request},)
         return paginator.get_paginated_response(serializer.data)
 
-    @action(methods=('POST', 'DELETE',), detail=True, url_path='subscribe',
-        permission_classes=(IsAuthenticated,), )
+    @action(
+        methods=('POST', 'DELETE',),
+        detail=True,
+        url_path='subscribe',
+        permission_classes=(IsAuthenticated,)
+    )
     def subscribe(self, request, id):
         """Подписка/отписка на пользователя."""
         following = get_object_or_404(User, id=id)
