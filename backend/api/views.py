@@ -1,15 +1,14 @@
 from io import BytesIO
 from django.conf import settings
-from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db.models import Sum, Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django_filters.rest_framework import DjangoFilterBackend
-from djoser.views import TokenCreateView, TokenDestroyView, UserViewSet
+from djoser.views import UserViewSet
 
 from rest_framework import status, viewsets
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
