@@ -232,7 +232,7 @@ class CustomUserViewSet(UserViewSet):
         return paginator.get_paginated_response(serializer.data)
 
     @action(methods=('POST', 'DELETE',), detail=True, url_path='subscribe',
-            permission_classes=(IsAuthenticated,), )
+        permission_classes=(IsAuthenticated,), )
     def subscribe(self, request, id):
         """Подписка/отписка на пользователя."""
         following = get_object_or_404(User, id=id)
@@ -256,10 +256,13 @@ class CustomUserViewSet(UserViewSet):
             )
 
         elif request.method == 'DELETE':
-            follow = Subscription.objects.filter(subscriber=request.user.id,
-                                                 target=following.id,)
-            if follow.exists():
-                follow.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
-
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            deleted_count, _ = Subscription.objects.filter(
+                subscriber=request.user.id,
+                target=following.id
+            ).delete()
+            if deleted_count == 0:
+                return Response(
+                    {'error': 'Подписка не найдена'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            return Response(status=status.HTTP_204_NO_CONTENT)
