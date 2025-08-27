@@ -213,10 +213,7 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(), many=True, write_only=True, required=True)
-    name = serializers.CharField(
-        required=True,
-        max_length=MAX_LENGTH_RECIPE
-    )
+    name = serializers.CharField(required=True, max_length=MAX_LENGTH_RECIPE)
     image = Base64ImageField()
 
     class Meta:
@@ -238,18 +235,10 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         ]
         RecipeIngredient.objects.bulk_create(recipe_ingredients)
 
-    def _update_tags_and_ingredients(
-            self,
-            recipe,
-            tags,
-            ingredients,
-            is_update=False
-    ):
+    def _update_tags_and_ingredients(self, recipe, tags, ingredients):
         """Обновление тегов и ингредиентов для рецепта."""
-        if is_update:
-            recipe.tags.clear()
-            recipe.recipe_ingredients.all().delete()
         recipe.tags.set(tags)
+        recipe.recipe_ingredients.all().delete()
         self._create_ingredients(recipe, ingredients)
 
     def create(self, validated_data):
@@ -262,18 +251,14 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
-        self._update_tags_and_ingredients(
-            instance,
-            tags,
-            ingredients,
-            is_update=True
-        )
+        self._update_tags_and_ingredients(instance, tags, ingredients)
         return super().update(instance, validated_data)
 
     def validate_image(self, value):
         if not self.instance and not value:
             raise serializers.ValidationError(
-                'Изображение обязательно при создании.')
+                'Изображение обязательно при создании.'
+            )
         return value
 
     def _check_unique(self, items, field_name):
@@ -281,14 +266,13 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
                for item in items]
         if len(ids) != len(set(ids)):
             raise serializers.ValidationError(
-                {field_name:
-                    f'{field_name.capitalize()} должны быть уникальными.'})
+                {field_name: f'{field_name.capitalize()} должны быть '
+                 f'уникальными.'})
 
     def _check_required(self, attrs, field_name):
         if field_name not in attrs or not attrs[field_name]:
             raise serializers.ValidationError(
-                {field_name:
-                    f'{field_name.capitalize()} Обязательное поле.'})
+                {field_name: f'{field_name.capitalize()} Обязательное поле.'})
 
     def validate(self, attrs):
         self._check_required(attrs, 'tags')
