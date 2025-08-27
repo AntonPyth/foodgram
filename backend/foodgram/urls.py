@@ -10,7 +10,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('s/<int:recipe_id>/', redirect_to_recipe,
          name='redirect_to_recipe'),
-    path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
 ]
 

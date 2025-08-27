@@ -24,7 +24,6 @@ from recipe.models import (
     ShoppingCart,
     Tag
 )
-
 from .filters import IngredientFilter, RecipeFilter
 from .pagination import Pagination
 from .permissions import IsOwnerOrReadOnly
@@ -179,47 +178,6 @@ def redirect_to_recipe(request, recipe_id):
     return redirect(f'/recipes/{recipe_id}/')
 
 
-class CustomTokenCreateView(TokenCreateView):
-    """Кастомное получение токена."""
-
-    permission_classes = (AllowAny, )
-
-    def _action(self, serializer):
-        try:
-            email = serializer.validated_data['email']
-            password = serializer.validated_data['password']
-            user = get_object_or_404(User, email=email)
-            user = authenticate(username=email, password=password)
-            if user:
-                token, created = Token.objects.get_or_create(user=user)
-                return Response({'auth_token': token.key},
-                                status=status.HTTP_200_OK)
-            return Response({'error': 'Неверные учетные данные'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({
-                'error': str(e)
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return self._action(serializer)
-
-
-class CustomTokenDestroyView(TokenDestroyView):
-    """Кастомное удаление токена."""
-
-    def delete(self, request):
-        try:
-            token = request.auth
-            token.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except Exception as e:
-            return Response({'detail': str(e)},
-                            status=status.HTTP_401_UNAUTHORIZED)
-
-
 class CustomUserViewSet(UserViewSet):
     """Вьюсет для работы с пользователями."""
 
@@ -239,14 +197,6 @@ class CustomUserViewSet(UserViewSet):
         if self.action == 'create':
             return CreateUserSerializer
         return super().get_serializer_class()
-
-    @action(methods=('GET',), detail=False, url_path='me',
-            permission_classes=(IsAuthenticated,),)
-    def me(self, request):
-        """Получение текущего пользователя."""
-        serializer = CustomUserSerializer(request.user,
-                                          context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=('PUT', 'DELETE',), detail=False, url_path='me/avatar',
             permission_classes=(IsAuthenticated,), )

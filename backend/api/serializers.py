@@ -17,14 +17,6 @@ from foodgram.constants import (
 User = get_user_model()
 
 
-class TokenCreateSerializer(serializers.Serializer):
-    """Сериализатор создания токена."""
-
-    email = serializers.EmailField(write_only=True)
-    password = serializers.CharField(style={'input_type': 'password'},
-                                     write_only=True)
-
-
 class CreateUserSerializer(serializers.ModelSerializer):
     """Сериализатор создания пользователя."""
 

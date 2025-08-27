@@ -137,10 +137,16 @@ DJOSER = {
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'LOGIN_FIELD': 'email',
     'SEND_ACTIVATION_EMAIL': False,
+    'HIDE_USERS': False,
     'SERIALIZERS': {
-        'token_create': 'api.serializers.TokenCreateSerializer',
+        'user_create': 'api.serializers.CreateUserSerializer',
+        'user': 'api.serializers.CustomUserSerializer',
+        'current_user': 'api.serializers.CustomUserSerializer',
+        'user_delete': 'djoser.serializers.UserDeleteSerializer',
+        'token_create': 'djoser.serializers.TokenCreateSerializer',
     },
-    'VIEWS': {
-        'token': 'api.views.CustomTokenCreateView',
+    'PERMISSIONS': {
+        'user_list': ['rest_framework.permissions.AllowAny'],
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
     },
 }
