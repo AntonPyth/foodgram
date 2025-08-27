@@ -35,6 +35,14 @@ ___
 - [X] git add .
 - [X] git commit -m "any comment" && git push
 
+6. **Доступ для проверки:**
+
+
+- [X] IP адрес:
+- [X] Домен сервера: https://foodgramanton.zapto.org
+- [X] IP адрес:
+- [X] 
+
 ___
 # **АВТОР:**
 
