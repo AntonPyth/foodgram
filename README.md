@@ -40,8 +40,8 @@ ___
 
 - [X] IP адрес: 158.160.3.109
 - [X] Домен сервера: https://foodgramanton.zapto.org
-- [X] E-mail:
-- [X] Pass: 
+- [X] E-mail: rosfr@bk.ru
+- [X] Pass: 123123
 
 ___
 # **АВТОР:**
