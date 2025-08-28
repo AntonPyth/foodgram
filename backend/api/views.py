@@ -182,6 +182,7 @@ def redirect_to_recipe(request, recipe_id):
 def get_csrf_token(request):
     return Response({'csrfToken': get_token(request)})
 
+
 class CustomUserViewSet(UserViewSet):
     """Вьюсет для работы с пользователями."""
 
