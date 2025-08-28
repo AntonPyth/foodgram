@@ -32,6 +32,7 @@ class User(AbstractUser):
         verbose_name='Аватар',
         upload_to='avatars/',
         blank=True,
+        null=True,
     )
 
     USERNAME_FIELD = 'email'
