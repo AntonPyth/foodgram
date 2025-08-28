@@ -22,6 +22,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db.models import Count, Sum
 from django.http import HttpResponse
+from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect
 
 from .filters import IngredientFilter, RecipeFilter
@@ -176,6 +177,10 @@ def redirect_to_recipe(request, recipe_id):
         raise ValidationError(f'Рецепт с id={recipe_id} не существует')
     return redirect(f'/recipes/{recipe_id}/')
 
+
+@api_view(['GET'])
+def get_csrf_token(request):
+    return Response({'csrfToken': get_token(request)})
 
 class CustomUserViewSet(UserViewSet):
     """Вьюсет для работы с пользователями."""
