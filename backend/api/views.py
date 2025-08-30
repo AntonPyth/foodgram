@@ -151,10 +151,19 @@ class RecipesViewSet(viewsets.ModelViewSet):
         """Скачать список ингредиентов из корзины."""
         user = request.user
         if not ShoppingCart.objects.filter(user=user).exists():
-            content = 'Ваша корзина пуста.\nДобавьте рецепты, чтобы сгенерировать список покупок.'
+            content = (
+                'Ваша корзина пуста.\n'
+                'Добавьте рецепты, чтобы сгенерировать список покупок.'
+
+            )
             buffer = BytesIO(content.encode('utf-8'))
-            response = HttpResponse(buffer.getvalue(), content_type='text/plain; charset=utf-8')
-            response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
+            response = HttpResponse(
+                buffer.getvalue(),
+                content_type='text/plain; charset=utf-8'
+            )
+            response['Content-Disposition'] = (
+                'attachment; filename="shopping_list.txt"'
+            )
             buffer.close()
             return response
 
@@ -168,7 +177,10 @@ class RecipesViewSet(viewsets.ModelViewSet):
 
         # Проверка на пустой список ингредиентов
         if not ingredients:
-            content = 'Нет ингредиентов в корзине.\nПроверьте, что рецепты содержат ингредиенты.'
+            content = (
+                'Нет ингредиентов в корзине.\n'
+                'Проверьте, что рецепты содержат ингредиенты.'
+            )
         else:
             content = 'Список покупок:\n\n'
             content += '\n'.join(
@@ -179,8 +191,13 @@ class RecipesViewSet(viewsets.ModelViewSet):
             )
 
         buffer = BytesIO(content.encode('utf-8'))
-        response = HttpResponse(buffer.getvalue(), content_type='text/plain; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
+        response = HttpResponse(
+            buffer.getvalue(),
+            content_type='text/plain; charset=utf-8'
+        )
+        response['Content-Disposition'] = (
+            'attachment; filename="shopping_list.txt"'
+        )
         buffer.close()
         return response
         # buffer = self.generate_shopping_list_buffer(ingredients)
