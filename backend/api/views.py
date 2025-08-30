@@ -149,6 +149,15 @@ class RecipesViewSet(viewsets.ModelViewSet):
             permission_classes=(IsAuthenticated,),)
     def download_shopping_cart(self, request):
         """Скачать список ингредиентов из корзины."""
+        user = request.user
+        if not ShoppingCart.objects.filter(user=user).exists():
+            content = 'Ваша корзина пуста.\nДобавьте рецепты, чтобы сгенерировать список покупок.'
+            buffer = BytesIO(content.encode('utf-8'))
+            response = HttpResponse(buffer.getvalue(), content_type='text/plain; charset=utf-8')
+            response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
+            buffer.close()
+            return response
+
         ingredients = (
             RecipeIngredient.objects
             .filter(recipe__in_shopping_cart__user=request.user)
@@ -156,10 +165,28 @@ class RecipesViewSet(viewsets.ModelViewSet):
             .annotate(total_amount=Sum('amount'))
             .order_by('ingredient__name')
         )
-        buffer = self.generate_shopping_list_buffer(ingredients)
-        response = HttpResponse(buffer.getvalue(), content_type='text/plain')
+
+        # Проверка на пустой список ингредиентов
+        if not ingredients:
+            content = 'Нет ингредиентов в корзине.\nПроверьте, что рецепты содержат ингредиенты.'
+        else:
+            content = 'Список покупок:\n\n'
+            content += '\n'.join(
+                f'{counter}. {item["ingredient__name"]} - '
+                f'{item["total_amount"]} '
+                f'{item["ingredient__measurement_unit"]}.'
+                for counter, item in enumerate(ingredients, start=1)
+            )
+
+        buffer = BytesIO(content.encode('utf-8'))
+        response = HttpResponse(buffer.getvalue(), content_type='text/plain; charset=utf-8')
+        response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
         buffer.close()
         return response
+        # buffer = self.generate_shopping_list_buffer(ingredients)
+        # response = HttpResponse(buffer.getvalue(), content_type='text/plain')
+        # buffer.close()
+        # return response
 
     @action(detail=True, methods=['GET'], url_path='get-link')
     def generate_short_link(self, request, pk=None):
