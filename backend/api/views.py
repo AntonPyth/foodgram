@@ -20,7 +20,7 @@ from rest_framework.response import Response
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Prefetch
 from django.http import HttpResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect
@@ -169,6 +169,7 @@ class RecipesViewSet(viewsets.ModelViewSet):
         ingredients = (
             RecipeIngredient.objects
             .filter(recipe__in_shopping_cart__user=request.user)
+            .prefetch_related(Prefetch('ingredient', queryset=Ingredient.objects.all()))
             .values('ingredient__name', 'ingredient__measurement_unit')
             .annotate(total_amount=Sum('amount'))
             .order_by('ingredient__name')
