@@ -150,11 +150,10 @@ class RecipesViewSet(viewsets.ModelViewSet):
     def download_shopping_cart(self, request):
         """Скачать список ингредиентов из корзины."""
         user = request.user
-        if not ShoppingCart.objects.filter(user=user).exists():
+        if not user.shopping_cart.exists():
             content = (
                 'Ваша корзина пуста.\n'
                 'Добавьте рецепты, чтобы сгенерировать список покупок.'
-
             )
             buffer = BytesIO(content.encode('utf-8'))
             response = HttpResponse(
@@ -200,10 +199,6 @@ class RecipesViewSet(viewsets.ModelViewSet):
         )
         buffer.close()
         return response
-        # buffer = self.generate_shopping_list_buffer(ingredients)
-        # response = HttpResponse(buffer.getvalue(), content_type='text/plain')
-        # buffer.close()
-        # return response
 
     @action(detail=True, methods=['GET'], url_path='get-link')
     def generate_short_link(self, request, pk=None):
