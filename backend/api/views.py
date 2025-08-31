@@ -169,7 +169,10 @@ class RecipesViewSet(viewsets.ModelViewSet):
         ingredients = (
             RecipeIngredient.objects
             .filter(recipe__in_shopping_cart__user=request.user)
-            .prefetch_related(Prefetch('ingredient', queryset=Ingredient.objects.all()))
+            .prefetch_related(Prefetch(
+                'ingredient',
+                queryset=Ingredient.objects.all())
+            )
             .values('ingredient__name', 'ingredient__measurement_unit')
             .annotate(total_amount=Sum('amount'))
             .order_by('ingredient__name')
