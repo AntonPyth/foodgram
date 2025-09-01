@@ -33,8 +33,6 @@ class RecipeIngredientInline(admin.TabularInline):
     min_num = 1
 
     def has_add_permission(self, request, obj=None):
-        if obj is not None and obj.recipe_ingredients.count() == 0:
-            return False
         return super().has_add_permission(request, obj)
 
 
