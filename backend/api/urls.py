@@ -7,7 +7,7 @@ from .views import (
     IngredientView,
     RecipesViewSet,
     TagView,
-    get_csrf_token
+    get_csrf_token,
 )
 
 router = routers.DefaultRouter()

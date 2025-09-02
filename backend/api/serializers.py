@@ -1,5 +1,13 @@
-from accounts.models import Subscription
+from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password
+from django.core.validators import RegexValidator
+
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
+
+from accounts.models import Subscription
+from foodgram.constants import MAX_LENGTH_RECIPE
 from recipe.models import (
     Favorite,
     Ingredient,
@@ -8,14 +16,6 @@ from recipe.models import (
     ShoppingCart,
     Tag,
 )
-from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
-
-from django.contrib.auth import get_user_model
-from django.contrib.auth.password_validation import validate_password
-from django.core.validators import RegexValidator
-
-from foodgram.constants import MAX_LENGTH_RECIPE
 
 User = get_user_model()
 

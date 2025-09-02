@@ -20,7 +20,7 @@ from rest_framework.response import Response
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.db.models import Count, Sum, Prefetch
+from django.db.models import Count, Prefetch, Sum
 from django.http import HttpResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, redirect
