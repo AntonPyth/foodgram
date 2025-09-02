@@ -18,7 +18,7 @@ class CustomUserAdmin(UserAdmin):
     change_password_form = AdminPasswordChangeForm
 
     list_display = ('id', 'username', 'first_name', 'last_name', 'email',)
-    list_filter = ('username', 'is_superuser', 'is_active', 'is_staff',)
+    list_filter = ('is_superuser', 'is_active',)
     search_fields = ('email', 'username', 'first_name', 'last_name',)
 
     fieldsets = (
