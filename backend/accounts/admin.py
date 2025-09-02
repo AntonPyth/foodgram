@@ -19,6 +19,7 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = ('id', 'username', 'first_name', 'last_name', 'email',)
     list_filter = ('username',)
+    search_fields = ('email', 'username', 'first_name', 'last_name',)
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -36,7 +37,6 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
-    search_fields = ('email', 'username')
     ordering = ('email',)
 
     readonly_fields = ()
