@@ -48,7 +48,7 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = (RecipeIngredientInline,)
 
     def get_queryset(self, request):
-        """Оптимизация запросов: 
+        """Оптимизация запросов:
         загрузка связанных данных для автора, тегов и ингредиентов."""
         queryset = super().get_queryset(request)
         return queryset.select_related('author').prefetch_related(
