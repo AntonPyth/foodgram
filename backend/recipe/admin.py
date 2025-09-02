@@ -68,25 +68,25 @@ class RecipeAdmin(admin.ModelAdmin):
         tags = [tag.name for tag in obj.tags.all()]
         return ', '.join(tags)
 
-    @admin.display(description="ингредиенты")
+    @admin.display(description='ингредиенты')
     @mark_safe
     def get_ingredients(self, obj):
         if not obj.recipe_ingredients.exists():
-            return "Нет ингредиентов"
-        return "<br>".join(
+            return 'Нет ингредиентов'
+        return '<br>'.join(
             [
-                f"{item.ingredient.name} - "
-                f"{item.amount} "
-                f"{item.ingredient.measurement_unit}"
+                f'{item.ingredient.name} - '
+                f'{item.amount} '
+                f'{item.ingredient.measurement_unit}'
                 for item in obj.recipe_ingredients.all()
             ]
         )
 
-    @admin.display(description="изображение")
+    @admin.display(description='изображение')
     @mark_safe
     def get_image(self, obj):
         if not obj.image:
-            return "Нет изображения"
+            return 'Нет изображения'
         return f'<img src="{obj.image.url}" width="100">'
 
 
@@ -94,7 +94,7 @@ class RecipeAdmin(admin.ModelAdmin):
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe')
     list_display_links = ('user', 'recipe',)
-    search_fields = ('user', 'recipe')
+    search_fields = ('user__username', 'recipe__name')
     list_filter = ('user', 'recipe')
     empty_value_display = EMPTY_MSG
 
