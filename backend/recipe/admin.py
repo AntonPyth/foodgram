@@ -16,6 +16,7 @@ EMPTY_MSG = '-пусто-'
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'measurement_unit',)
+    list_display_links = ('name',)
     search_fields = ('name',)
     empty_value_display = EMPTY_MSG
 
@@ -33,22 +34,28 @@ class RecipeIngredientInline(admin.TabularInline):
     extra = 1
     min_num = 1
 
-    def has_add_permission(self, request, obj=None):
-        return super().has_add_permission(request, obj)
-
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'author', 'text', 'cooking_time',
                     'get_tags', 'created_at', 'get_favorites_count',
                     'get_ingredients', 'get_image')
+    list_display_links = ('name', 'author',)
     search_fields = ('name', 'author__username', 'author__first_name',
                      'author__last_name')
     list_filter = ('tags',)
     empty_value_display = EMPTY_MSG
     inlines = (RecipeIngredientInline,)
 
-    @admin.display(description="в избранном")
+    def get_queryset(self, request):
+        """Оптимизация запросов: 
+        загрузка связанных данных для автора, тегов и ингредиентов."""
+        queryset = super().get_queryset(request)
+        return queryset.select_related('author').prefetch_related(
+            'tags', 'recipe_ingredients__ingredient',
+        )
+
+    @admin.display(description='в избранном')
     def get_favorites_count(self, obj):
         return obj.favorite.count()
 
