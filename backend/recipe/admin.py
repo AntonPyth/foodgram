@@ -23,6 +23,7 @@ class IngredientAdmin(admin.ModelAdmin):
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'slug',)
+    list_display_links = ('name', 'slug',)
     search_fields = ('name', 'slug',)
     empty_value_display = EMPTY_MSG
 
@@ -81,6 +82,7 @@ class RecipeAdmin(admin.ModelAdmin):
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe')
+    list_display_links = ('user', 'recipe',)
     search_fields = ('user', 'recipe')
     list_filter = ('user', 'recipe')
     empty_value_display = EMPTY_MSG
@@ -89,6 +91,7 @@ class FavoriteAdmin(admin.ModelAdmin):
 @admin.register(ShoppingCart)
 class SoppingCartAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe')
+    list_display_links = ('user', 'recipe',)
     search_fields = ('user', 'recipe')
     list_filter = ('user', 'recipe')
     empty_value_display = EMPTY_MSG
