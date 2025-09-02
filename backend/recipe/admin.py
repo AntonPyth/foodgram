@@ -41,9 +41,13 @@ class RecipeAdmin(admin.ModelAdmin):
                     'get_tags', 'created_at', 'get_favorites_count',
                     'get_ingredients', 'get_image')
     list_display_links = ('name', 'author',)
-    search_fields = ('name', 'author__username', 'author__first_name',
-                     'author__last_name')
-    list_filter = ('tags',)
+    search_fields = ('name',)
+    list_filter = (
+        'tags',
+        'author__username',
+        'author__first_name',
+        'author__last_name'
+    )
     empty_value_display = EMPTY_MSG
     inlines = (RecipeIngredientInline,)
 
