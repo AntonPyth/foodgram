@@ -94,7 +94,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class UserAvatarSerializer(serializers.ModelSerializer):
-    """Сериализатор изменения аватара."""
+    """Сериализатор изменения аватара1."""
 
     avatar = Base64ImageField()
 
