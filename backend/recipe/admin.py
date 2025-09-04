@@ -98,11 +98,19 @@ class FavoriteAdmin(admin.ModelAdmin):
     list_filter = ('user', 'recipe')
     empty_value_display = EMPTY_MSG
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.select_related('user', 'recipe')
+
 
 @admin.register(ShoppingCart)
-class SoppingCartAdmin(admin.ModelAdmin):
+class ShoppingCartAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe')
     list_display_links = ('user', 'recipe',)
     search_fields = ('user', 'recipe')
     list_filter = ('user', 'recipe')
     empty_value_display = EMPTY_MSG
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.select_related('user', 'recipe')
