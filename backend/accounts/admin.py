@@ -47,3 +47,7 @@ class SubscribeAdmin(admin.ModelAdmin):
     list_display = ('id', 'subscriber', 'target',)
     search_fields = ('subscriber__username',)
     empty_value_display = '-пусто-'
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.select_related('subscriber', 'target')

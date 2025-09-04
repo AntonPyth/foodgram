@@ -16,7 +16,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 DOMAIN_NAME = os.getenv('DOMAIN_NAME', 'foodgramanton.zapto.org')
 
 if DOMAIN_NAME:
-    CSRF_TRUSTED_ORIGINS = [f"https://{DOMAIN_NAME}"]
+    CSRF_TRUSTED_ORIGINS = [f'https://{DOMAIN_NAME}']
 else:
     CSRF_TRUSTED_ORIGINS = []
 
